@@ -9,10 +9,11 @@
 ## Start the project
 
 - Create a new database in your postgres server
-- Install the dependencies
-- Run the migrations
-- Run the seed
-- Run the project
+- Copy the `.env.example` file to `.env` and fill the variables `cp .env.example .env`
+- Install the dependencies `pnpm install`
+- Run the migrations `pnpm kysely migrate:latest`
+- Run the seed `pnpm kysely seed:run`
+- Run the project `pnpm run dev`
 
 ## Linter, formatter and type checking
 
