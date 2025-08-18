@@ -18,3 +18,21 @@ export const studentValidator = z.object({
   lastName: nameValidator,
   age: ageValidator,
 })
+
+export const IdValidator = z.coerce.number().min(1, "Id must be greater than 0")
+
+export const subjectValidator = z.string().min(1, "A subject can't be empty")
+
+export const pageValidator = z.coerce
+  .number()
+  .min(1, "Page must be greater than 0")
+
+export const gradeValidator = z.coerce
+  .number()
+  .min(1, "Grade must be greater than 0")
+  .max(20, "Grade must be less than 20")
+
+export const createGradeValidator = z.object({
+  subject: subjectValidator,
+  grade: gradeValidator,
+})

@@ -7,6 +7,9 @@ loadEnv()
 const configSchema = z.object({
   api: z.object({
     port: portValidator,
+    pagination: z.object({
+      pageSize: z.number().min(1).max(100),
+    }),
   }),
   db: z.object({
     uri: uriValidator,
@@ -22,6 +25,12 @@ const apiConfig = ((): z.infer<typeof configSchema> => {
     return configSchema.parse({
       api: {
         port: Number.parseInt(process.env.API__API_PORT ?? "", 10),
+        pagination: {
+          pageSize: Number.parseInt(
+            process.env.API__PAGINATION__PAGE_SIZE ?? "",
+            10,
+          ),
+        },
       },
       db: {
         uri: process.env.DB__DB_URI,

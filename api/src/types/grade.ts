@@ -1,4 +1,10 @@
-import type { ColumnType, Generated, Selectable } from "kysely"
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+} from "kysely"
 
 export interface GradeTable {
   id: Generated<number>
@@ -11,3 +17,7 @@ export interface GradeTable {
 }
 
 export type Grade = Selectable<GradeTable>
+
+export type NewGrade = Insertable<GradeTable>
+
+export type GradeUpdate = Updateable<GradeTable>
