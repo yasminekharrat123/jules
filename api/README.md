@@ -1,4 +1,4 @@
-# API
+# Jules - API
 
 ## Prerequisites
 
@@ -70,3 +70,8 @@ The api has the following routes:
   - Gets a paginated list of all grades
   - Required query parameters:
     - page : Page number for pagination
+
+## WARNING
+
+Seeds is reseting the db when you run it.
+Don't run in prod.

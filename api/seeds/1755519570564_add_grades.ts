@@ -25,7 +25,7 @@ export const seed = async (db: Kysely<Database>) => {
       db
         .insertInto("grades")
         .values({
-          studentId: student.id ?? 1,
+          studentId: student.id,
           subject,
           grade: faker.number.int({ min: 1, max: 20 }),
         })

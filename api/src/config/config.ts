@@ -10,6 +10,9 @@ const configSchema = z.object({
     pagination: z.object({
       pageSize: z.number().min(1).max(100),
     }),
+    cors: z.object({
+      origin: z.array(z.string()).min(1, "At least one origin is require"),
+    }),
   }),
   db: z.object({
     uri: uriValidator,
@@ -30,6 +33,11 @@ const apiConfig = ((): z.infer<typeof configSchema> => {
             process.env.API__PAGINATION__PAGE_SIZE ?? "",
             10,
           ),
+        },
+        cors: {
+          origin: JSON.parse(
+            process.env.API__CORS__ALLOWED_HOST_JSON ?? "[]",
+          ) as string[],
         },
       },
       db: {

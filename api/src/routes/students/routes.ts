@@ -1,12 +1,12 @@
-import { getAllStudents, getStudentWithGrades } from "@utils/db"
-import { Context, Hono } from "hono"
-import { db } from "src/db"
+import addStudent from "controllers/students/addStudent"
+import getAllStudentsController from "controllers/students/getAllStudent"
+import getStudentById from "controllers/students/getStudenById"
+import { Hono } from "hono"
 import {
   validateBody,
   validateParams,
   validateQuery,
 } from "src/middlewares/validate"
-import type { NewStudent } from "src/types/student"
 import {
   IdValidator,
   pageValidator,
@@ -14,33 +14,9 @@ import {
 } from "src/utils/validators"
 import z from "zod"
 
-interface ValidatedBodyContext extends Context {
-  get(key: "validated"): NewStudent
-  get(key: string): unknown
-}
-
-interface ValidatedParamsContext extends Context {
-  get(key: "validatedParams"): { id: number }
-  get(key: string): unknown
-}
-
-interface ValidatedQueryContext extends Context {
-  get(key: "validatedQuery"): { page: number }
-  get(key: string): unknown
-}
-
 const studentRoutes = new Hono()
-  .post(
-    "/",
-    validateBody(studentValidator),
-    async (ctx: ValidatedBodyContext) => {
-      const validated = ctx.get("validated")
-
-      await db.insertInto("students").values(validated).execute()
-
-      return ctx.json({ message: "Student created" })
-    },
-  )
+  .post("/", validateBody(studentValidator), addStudent)
+  .post("", validateBody(studentValidator), addStudent)
   .get(
     "/:id/",
     validateParams(
@@ -48,17 +24,9 @@ const studentRoutes = new Hono()
         id: IdValidator,
       }),
     ),
-    async (ctx: ValidatedParamsContext) => {
-      const validated = ctx.get("validatedParams")
-      const student = await getStudentWithGrades(validated.id)
-
-      if (!student) {
-        return ctx.json({ error: "Student not found" }, 404)
-      }
-
-      return ctx.json(student)
-    },
+    getStudentById,
   )
+  .get("/:id", validateParams(z.object({ id: IdValidator })), getStudentById)
   .get(
     "/",
     validateQuery(
@@ -66,12 +34,16 @@ const studentRoutes = new Hono()
         page: pageValidator,
       }),
     ),
-    async (ctx: ValidatedQueryContext) => {
-      const validated = ctx.get("validatedQuery")
-      const students = await getAllStudents(validated.page)
-
-      return ctx.json(students)
-    },
+    getAllStudentsController,
+  )
+  .get(
+    "",
+    validateQuery(
+      z.object({
+        page: pageValidator,
+      }),
+    ),
+    getAllStudentsController,
   )
 
 export default studentRoutes

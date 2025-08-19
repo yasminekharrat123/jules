@@ -1,15 +1,24 @@
-import Student from "@/types/student"
-import axios from "axios"
+import { getStudents } from "@/api"
+import StudentTable from "@/components/students/studentTable"
+import Button from "@/components/ui/button"
+import Pagination from "@/components/ui/pagination"
+import Link from "next/link"
 
-const Home = async () => {
-  const { data: students } = await axios.get<Student[]>(
-    "http://localhost:3001/students?page=1",
-  )
+interface HomeProps {
+  searchParams: Record<string, string | string[] | undefined>
+}
+
+const Home = async ({ searchParams }: HomeProps) => {
+  const page = searchParams.page ? Number(searchParams.page) : 1
+  const { data: students } = await getStudents(page)
 
   return (
-    <div className="">
-      <h1 className="text-center text-2xl font-bold text-red-500">Home</h1>
-      <p>{students.map(({ firstName }) => firstName).join(", ")}</p>
+    <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-8 px-4">
+      <StudentTable students={students} />
+      <Button as={Link} href="/add/student">
+        Add Student
+      </Button>
+      <Pagination page={page} baseUrl="/" />
     </div>
   )
 }

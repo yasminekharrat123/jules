@@ -5,6 +5,7 @@ export const getAllStudents = (page: number) =>
     .selectFrom("students")
     .where("deleted_at", "is", null)
     .select(["id", "firstName", "lastName", "age"])
+    .orderBy("id", "desc")
     .limit(10)
     .offset((page - 1) * 10)
     .execute()

@@ -4,8 +4,7 @@ import type { Database } from "src/types/db"
 import apiConfig from "../src/config/config"
 import type { NewStudent } from "../src/types/student"
 
-const seedStudent = (id: number): NewStudent => ({
-  id,
+const seedStudent = (): NewStudent => ({
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
   age: faker.number.int({ min: 18, max: 60 }),
@@ -13,7 +12,7 @@ const seedStudent = (id: number): NewStudent => ({
 
 export const seedUsers = Array.from(
   { length: apiConfig.seed.users.count },
-  (_, index) => seedStudent(index + 1),
+  (_, index) => ({ ...seedStudent(), id: index + 1 }),
 )
 
 export const seed = async (db: Kysely<Database>): Promise<void> => {
