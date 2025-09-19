@@ -1,6 +1,9 @@
 # Jules
 
+## What is Jules
+
 A student management system with a Next.js frontend and Node.js backend.
+This app have been created for our entry technical test for our devops teams.
 
 ## Features
 
