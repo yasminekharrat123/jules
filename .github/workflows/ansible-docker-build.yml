@@ -32,8 +32,9 @@ jobs:
       - name: Build and push Ansible image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }}
+            context: ./ansible
+            file: ./ansible/Dockerfile
+            push: true
+            tags: ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }}
+
 
