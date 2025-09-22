@@ -50,8 +50,8 @@ jobs:
           APP_FRONT_PORT: ${{ vars.APP_FRONT_PORT }}
         run: |
           docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            $(printf -- '-e %s ' $(compgen -v)) \
+            -v "${{ github.workspace }}/ansible:/ansible" \
+            -w /ansible \
+            --env-file <(env) \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
             ansible-playbook -i inventory/hosts.yml deploy-app.yml
