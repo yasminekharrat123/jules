@@ -11,14 +11,6 @@
     dest: "{{ app_frontend_env_file }}"
     mode: "{{ app_env_file_mode }}"
 
-- name: "[APP]  Wait for Postgres to be healthy"
-  community.docker.docker_container_info:
-    name: "{{ postgres_container_name }}"
-  register: postgres_info
-  until: postgres_info.container.State.Health.Status == "healthy"
-  retries: 20
-  delay: 5
-
 - name: "[APP] Run backend container"
   become: true
   community.docker.docker_container:
@@ -31,22 +23,14 @@
     networks:
       - name: "{{ app_network_name }}"
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:{{ api_port }}/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:{{ api_port }} || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
 
-- name: "[APP] Wait for backend to be healthy"
-  community.docker.docker_container_info:
-    name: "{{ app_backend_container_name }}"
-  register: backend_info
-  until: backend_info.container.State.Health.Status == "healthy"
-  retries: 20
-  delay: 5
 - name: "[APP] Run migration (one-shot)"
   become: true
-
   community.docker.docker_container:
     name: "{{ app_migrate_container_name }}"
     image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-backend:{{ environment }}"
@@ -69,3 +53,9 @@
     restart_policy: always
     networks:
       - name: "{{ app_network_name }}"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:{{ frontend_port }} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
