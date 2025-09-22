@@ -30,30 +30,28 @@ jobs:
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with Ansible
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+          DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PORT: ${{ vars.POSTGRES_PORT }}
+          API_CORS_JSON: ${{ vars.API_CORS_JSON }}
+          API_PAGINATION_PAGE_SIZE: ${{ vars.API_PAGINATION_PAGE_SIZE }}
+          API_PORT: ${{ vars.API_PORT }}
+          APP_NAME: ${{ vars.APP_NAME }}
+          ENV: ${{ vars.ENV }}
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+          SEED_USERS_COUNT: ${{ vars.SEED_USERS_COUNT }}
+          APP_FRONT_PORT: ${{ vars.APP_FRONT_PORT }}
         run: |
-          cat <<EOF > .env
-          SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}"
-          VPS_HOST="${{ secrets.VPS_HOST }}"
-          DOCKER_REGISTRY="${{ secrets.DOCKER_REGISTRY }}"
-          DOCKER_REGISTRY_USER="${{ secrets.DOCKER_REGISTRY_USER }}"
-          DOCKER_REGISTRY_PASSWORD="${{ secrets.DOCKER_REGISTRY_PASSWORD }}"
-          POSTGRES_DB="${{ secrets.POSTGRES_DB }}"
-          POSTGRES_USER="${{ secrets.POSTGRES_USER }}"
-          POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
-          POSTGRES_PORT="${{ vars.POSTGRES_PORT }}"
-          API_CORS_JSON="${{ vars.API_CORS_JSON }}"
-          API_PAGINATION_PAGE_SIZE="${{ vars.API_PAGINATION_PAGE_SIZE }}"
-          API_PORT="${{ vars.API_PORT }}"
-          APP_NAME="${{ vars.APP_NAME }}"
-          ENV="${{ vars.ENV }}"
-          NEXT_PUBLIC_API_URL="${{ vars.NEXT_PUBLIC_API_URL }}"
-          SEED_USERS_COUNT="${{ vars.SEED_USERS_COUNT }}"
-          APP_FRONT_PORT="${{ vars.APP_FRONT_PORT }}"
-          EOF
-
           docker run --rm \
-            --env-file .env \
             -v ${{ github.workspace }}:/workspace \
             -w /workspace \
+            $(printf -- '-e %s ' $(compgen -v)) \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
             ansible-playbook -i inventory/hosts.yml deploy-app.yml
