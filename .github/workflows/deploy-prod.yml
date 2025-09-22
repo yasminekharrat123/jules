@@ -52,6 +52,6 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}/ansible:/ansible" \
             -w /ansible \
-            --env-file <(env) \
+            $(for var in $(compgen -v); do echo -n "-e $var "; done) \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
             ansible-playbook -i inventory/hosts.yml deploy-app.yml
