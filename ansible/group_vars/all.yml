@@ -1,5 +1,5 @@
 app_name: "{{ APP_NAME | default('jules', true) }}"
-environment: "{{ ENV }}"
+env: "{{ ENV }}"
 
 
 # Database
