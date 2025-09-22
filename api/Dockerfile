@@ -8,7 +8,6 @@ RUN npm install -g pnpm
 # COPY . .
 # RUN pnpm run build
 
-
 FROM base AS runtime
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile  
