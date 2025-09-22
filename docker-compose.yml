@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: jules-db
+    env_file: ./api/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
+  migrate:
+    build:
+      context: ./api
+    container_name: jules-migrate
+    env_file: ./api/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "pnpm kysely migrate:latest && pnpm kysely seed:run"
+    restart: "no"
+  backend:
+    build:
+      context: ./api
+    container_name: jules-backend
+    env_file: ./api/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+  frontend:
+    build:
+      context: ./web
+    container_name: jules-frontend
+    env_file: ./web/.env.local
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+volumes:
+  db-data:
