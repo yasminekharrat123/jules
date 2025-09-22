@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker"
 import type { Kysely } from "kysely"
-import type { Database } from "src/types/db"
+import type { Database } from "../src/types/db"
 import apiConfig from "../src/config/config"
 import type { NewStudent } from "../src/types/student"
 

@@ -1,6 +1,6 @@
 import { getUserByID } from "@utils/db"
 import { Context } from "hono"
-import { db } from "src/db"
+import { db } from "../../src/db"
 
 interface ContextWithValidation extends Context {
   get(key: "validatedParams"): { id: number }

@@ -1,6 +1,6 @@
 import { Context } from "hono"
-import { db } from "src/db"
-import { NewStudent } from "src/types/student"
+import { db } from "../../src/db"
+import { NewStudent } from "../../src/types/student"
 
 interface ContextWithValidation extends Context {
   get(key: "validated"): NewStudent

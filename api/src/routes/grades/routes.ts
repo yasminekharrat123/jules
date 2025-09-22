@@ -1,8 +1,8 @@
 import { createGradeValidator, IdValidator } from "@utils/validators"
-import addGrade from "controllers/grades/addGrade"
-import getGrades from "controllers/grades/getGrades"
+import addGrade from "../../../controllers/grades/addGrade"
+import getGrades from "../../../controllers/grades/getGrades"
 import { Hono } from "hono"
-import { validateBody, validateParams } from "src/middlewares/validate"
+import { validateBody, validateParams } from "../../middlewares/validate"
 import z from "zod"
 
 const gradesRoutes = new Hono()

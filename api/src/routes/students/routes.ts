@@ -1,17 +1,17 @@
-import addStudent from "controllers/students/addStudent"
-import getAllStudentsController from "controllers/students/getAllStudent"
-import getStudentById from "controllers/students/getStudenById"
+import addStudent from "../../../controllers/students/addStudent"
+import getAllStudentsController from "../../../controllers/students/getAllStudent"
+import getStudentById from "../../../controllers/students/getStudenById"
 import { Hono } from "hono"
 import {
   validateBody,
   validateParams,
   validateQuery,
-} from "src/middlewares/validate"
+} from "../../middlewares/validate"
 import {
   IdValidator,
   pageValidator,
   studentValidator,
-} from "src/utils/validators"
+} from "../../utils/validators"
 import z from "zod"
 
 const studentRoutes = new Hono()
