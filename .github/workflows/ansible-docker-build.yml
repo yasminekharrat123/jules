@@ -5,7 +5,7 @@ on:
     paths:
       - 'ansible/Dockerfile'
       - 'ansible/requirements.yml'
-      - '.github/workflows/build-ansible-image.yml'
+      - '.github/workflows/ansible-docker-build.yml'
     branches:
       - master
   workflow_dispatch: # manual
@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: read
       packages: write
