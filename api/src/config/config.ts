@@ -25,6 +25,9 @@ const configSchema = z.object({
 })
 const apiConfig = ((): z.infer<typeof configSchema> => {
   try {
+    const rawCors = process.env.API__CORS__ALLOWED_HOST_JSON ?? "[]"
+    const sanitizedCors = rawCors.trim().replace(/'/g, '"')
+
     return configSchema.parse({
       api: {
         port: Number.parseInt(process.env.API__API_PORT ?? "", 10),
@@ -35,9 +38,7 @@ const apiConfig = ((): z.infer<typeof configSchema> => {
           ),
         },
         cors: {
-          origin: JSON.parse(
-            process.env.API__CORS__ALLOWED_HOST_JSON ?? "[]",
-          ) as string[],
+          origin: JSON.parse(sanitizedCors) as string[],
         },
       },
       db: {
