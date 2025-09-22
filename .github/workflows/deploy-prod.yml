@@ -41,7 +41,7 @@ jobs:
           API_CORS_JSON: ${{ vars.API_CORS_JSON }}
           API_PAGINATION_PAGE_SIZE: ${{ vars.API_PAGINATION_PAGE_SIZE }}
           API_PORT: ${{ vars.API_PORT }}
-          APP_NAME: jules
+          APP_NAME: ${{ vars.APP_NAME }}
           ENV: ${{ vars.ENV }}
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
           SEED_USERS_COUNT: ${{ vars.SEED_USERS_COUNT }}

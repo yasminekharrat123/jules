@@ -1,4 +1,4 @@
-app_name: "{{ lookup('env', 'APP_NAME') }}"
+app_name: "{{ lookup('env', 'APP_NAME') | default('jules', true) }}"
 environment: "{{ lookup('env', 'ENV') }}"
 
 
