@@ -41,7 +41,7 @@ jobs:
           API_CORS_JSON: ${{ vars.API_CORS_JSON }}
           API_PAGINATION_PAGE_SIZE: ${{ vars.API_PAGINATION_PAGE_SIZE }}
           API_PORT: ${{ vars.API_PORT }}
-          APP_NAME: ${{ vars.APP_NAME }}
+          APP_NAME: jules
           ENV: ${{ vars.ENV }}
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
           SEED_USERS_COUNT: ${{ vars.SEED_USERS_COUNT }}
@@ -58,11 +58,6 @@ jobs:
             value="${line#*=}"
             ENV_ARGS+=( -e "$key=$value" )
           done < <(printenv)
-
-          echo "Docker will run with the following env arguments:"
-          for arg in "${ENV_ARGS[@]}"; do
-            echo "$arg"
-          done
 
           docker run --rm "${ENV_ARGS[@]}" \
             -v "${{ github.workspace }}/ansible:/ansible" \
