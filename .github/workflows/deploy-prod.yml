@@ -51,7 +51,8 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-          docker run --rm \
+          ENV_ARGS=$(env | awk -F= '{print "-e " $1 "=\"" $2 "\""}' | xargs)
+          docker run --rm $ENV_ARGS \
             -v "${{ github.workspace }}/ansible:/ansible" \
             -v ~/.ssh:/root/.ssh:ro \
             -w /ansible \
