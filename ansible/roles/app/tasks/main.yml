@@ -12,6 +12,7 @@
     mode: "{{ app_env_file_mode }}"
 
 - name: "[APP] Run backend container"
+  become: true
   community.docker.docker_container:
     name: "{{ app_backend_container_name }}"
     image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-backend:{{ environment }}"
@@ -24,6 +25,7 @@
       - name: "{{ app_network_name }}"
 
 - name: "[APP] Run migration (one-shot)"
+  become: true
   community.docker.docker_container:
     name: "{{ app_migrate_container_name }}"
     image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-backend:{{ environment }}"
@@ -37,12 +39,13 @@
       - name: "{{ app_network_name }}"
 
 - name: "[APP] Run frontend container"
+  become: true
   community.docker.docker_container:
     name: "{{ app_frontend_container_name }}"
     image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-frontend:{{ environment }}"
     env_file: "{{ app_frontend_env_file }}"
     ports:
-      - "{{ app_frontend_port }}:{{ app_frontend_port }}"
+      - "{{ frontend_port }}:{{ frontend_port }}"
     restart_policy: always
     depends_on: "{{ app_frontend_depends_on }}"
     networks:

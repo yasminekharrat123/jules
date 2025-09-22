@@ -11,3 +11,6 @@ postgres_container_name: "{{ app_name }}-db"
 db_uri: "postgres://{{ postgres_user }}:{{ postgres_password }}@{{ postgres_container_name }}:{{ postgres_port }}/{{ postgres_db }}"
 
 app_network_name: "{{ app_name }}_app_net"
+api_port: "{{ API_PORT | default('3001', true) }}"
+frontend_port: "{{ APP_FRONT_PORT | default('3000', true) }}"
+

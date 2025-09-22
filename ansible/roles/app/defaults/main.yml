@@ -1,7 +1,6 @@
 ## For env files
 
 # API
-api_port: "{{ API_PORT | default('3001', true) }}"
 api_page_size: "{{ API_PAGINATION_PAGE_SIZE }}"
 seed_users_count: "{{ SEED_USERS_COUNT }}"
 api_cors_json: "{{ API_CORS_JSON }}"
@@ -31,7 +30,6 @@ app_migrate_command: >
 app_frontend_env_template: "web.env.j2"
 app_frontend_env_file: "/home/{{ ansible_user }}/web.env.local"
 app_frontend_container_name: "{{ app_name }}-frontend"
-app_frontend_port: "{{ APP_FRONT_PORT | default('3000', true) }}"
 app_frontend_depends_on:
   - "{{ app_backend_container_name }}"
 
