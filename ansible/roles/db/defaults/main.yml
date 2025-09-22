@@ -1,0 +1,9 @@
+postgres_image: postgres:16-alpine
+postgres_restart_policy: always
+postgres_volume_name: db-data
+postgres_data_path: /var/lib/postgresql/data
+
+postgres_healthcheck_interval: 5s
+postgres_healthcheck_retries: 5
+postgres_healthcheck_start_period: 5s
+

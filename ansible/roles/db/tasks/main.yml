@@ -1,0 +1,28 @@
+---
+- name: "[DB] Create Docker volume for Postgres"
+  community.docker.docker_volume:
+    name: "{{ postgres_volume_name }}"
+    state: present
+
+- name: "[DB] Run Postgres container"
+  community.docker.docker_container:
+    name: "{{ postgres_container_name }}"
+    image: "{{ postgres_image }}"
+    restart_policy: "{{ postgres_restart_policy }}"
+    ports:
+      - "{{ postgres_port }}:{{ postgres_port }}"
+    volumes:
+      - "{{ postgres_volume_name }}:{{ postgres_data_path }}"
+    env:
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
+      POSTGRES_DB: "{{ postgres_db }}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: "{{ postgres_healthcheck_interval }}"
+      retries: "{{ postgres_healthcheck_retries }}"
+      start_period: "{{ postgres_healthcheck_start_period }}"
+    networks:
+      - name: "{{ app_network_name }}"
+        aliases:
+          - "{{ postgres_container_name }}"
