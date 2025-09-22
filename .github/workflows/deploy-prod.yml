@@ -59,6 +59,11 @@ jobs:
             ENV_ARGS+=( -e "$key=$value" )
           done < <(printenv)
 
+          echo "Docker will run with the following env arguments:"
+          for arg in "${ENV_ARGS[@]}"; do
+            echo "$arg"
+          done
+
           docker run --rm "${ENV_ARGS[@]}" \
             -v "${{ github.workspace }}/ansible:/ansible" \
             -v ~/.ssh:/root/.ssh:ro \
