@@ -3,10 +3,12 @@
     "target": "ESNext",
     "module": "CommonJS",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "skipLibCheck": true,
     "types": ["node"],
     "outDir": "./dist",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
       "@utils/*": ["src/utils/*"],
@@ -15,5 +17,12 @@
       "@routes/*": ["src/routes/*"]
     }
   },
+  "include": [
+    "src/**/*",
+    "seeds",
+    "kysely.config.ts",
+    "migrations",
+    "controllers"
+  ],
   "exclude": ["node_modules"]
 }
