@@ -8,7 +8,7 @@ docker_packages:
   - python3-docker
 
 docker_registry_credentials:
-  password:  "{{ lookup('env', 'DOCKER_REGISTRY_PASSWORD')}}"
-  username: "{{ lookup('env', 'DOCKER_REGISTRY_USER')}}"
-  url: "{{ lookup('env', 'DOCKER_REGISTRY') }}"
+  password:  "{{ DOCKER_REGISTRY_PASSWORD }}"
+  username: "{{ DOCKER_REGISTRY_USER }}"
+  url: "{{ DOCKER_REGISTRY }}"
 

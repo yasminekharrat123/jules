@@ -30,38 +30,30 @@ jobs:
       #     ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with Ansible
-        env:
-          DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
-          DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
-          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_PORT: ${{ vars.POSTGRES_PORT }}
-          API_CORS_JSON: ${{ vars.API_CORS_JSON }}
-          API_PAGINATION_PAGE_SIZE: ${{ vars.API_PAGINATION_PAGE_SIZE }}
-          API_PORT: ${{ vars.API_PORT }}
-          APP_NAME: ${{ vars.APP_NAME }}
-          ENV: ${{ vars.ENV }}
-          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
-          SEED_USERS_COUNT: ${{ vars.SEED_USERS_COUNT }}
-          APP_FRONT_PORT: ${{ vars.APP_FRONT_PORT }}
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-          
-          ENV_ARGS=()
-          while read -r line; do
-            key="${line%%=*}"
-            value="${line#*=}"
-            ENV_ARGS+=( -e "$key=$value" )
-          done < <(printenv)
 
-          docker run --rm "${ENV_ARGS[@]}" \
+          docker run --rm \
             -v "${{ github.workspace }}/ansible:/ansible" \
             -v ~/.ssh:/root/.ssh:ro \
             -w /ansible \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
-            ansible-playbook -i inventory/hosts.yml deploy-app.yml
+            ansible-playbook -i inventory/hosts.yml deploy-app.yml \
+            -e "DOCKER_REGISTRY=${{ secrets.DOCKER_REGISTRY }}" \
+            -e "DOCKER_REGISTRY_USER=${{ secrets.DOCKER_REGISTRY_USER }}" \
+            -e "DOCKER_REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" \
+            -e "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" \
+            -e "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" \
+            -e "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" \
+            -e "POSTGRES_PORT=${{ vars.POSTGRES_PORT }}" \
+            -e "API_CORS_JSON=${{ vars.API_CORS_JSON }}" \
+            -e "API_PAGINATION_PAGE_SIZE=${{ vars.API_PAGINATION_PAGE_SIZE }}" \
+            -e "API_PORT=${{ vars.API_PORT }}" \
+            -e "APP_NAME=${{ vars.APP_NAME }}" \
+            -e "ENV=${{ vars.ENV }}" \
+            -e "NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}" \
+            -e "SEED_USERS_COUNT=${{ vars.SEED_USERS_COUNT }}" \
+            -e "APP_FRONT_PORT=${{ vars.APP_FRONT_PORT }}"

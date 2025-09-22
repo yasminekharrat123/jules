@@ -1,12 +1,12 @@
-app_name: "{{ lookup('env', 'APP_NAME') | default('jules', true) }}"
-environment: "{{ lookup('env', 'ENV') }}"
+app_name: "{{ APP_NAME | default('jules', true) }}"
+environment: "{{ ENV }}"
 
 
 # Database
-postgres_user: "{{ lookup('env', 'POSTGRES_USER') }}"
-postgres_password: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
-postgres_db: "{{ lookup('env', 'POSTGRES_DB') }}"
-postgres_port: "{{ lookup('env', 'POSTGRES_PORT') | default('5432', true) }}"
+postgres_user: "{{ POSTGRES_USER }}"
+postgres_password: "{{ POSTGRES_PASSWORD }}"
+postgres_db: "{{ POSTGRES_DB }}"
+postgres_port: "{{ POSTGRES_PORT | default('5432', true) }}"
 postgres_container_name: "{{ app_name }}-db"
 db_uri: "postgres://{{ postgres_user }}:{{ postgres_password }}@{{ postgres_container_name }}:{{ postgres_port }}/{{ postgres_db }}"
 
