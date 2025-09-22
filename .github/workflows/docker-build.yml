@@ -50,5 +50,3 @@ jobs:
           tags: |
             ghcr.io/${{ env.REGISTRY_USERNAME }}/${{ env.APP_NAME }}-${{ matrix.service }}:latest
             ghcr.io/${{ env.REGISTRY_USERNAME }}/${{ env.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
