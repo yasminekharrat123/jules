@@ -38,7 +38,7 @@
     - deploy-webserver
     - deploy-app
 
-- name: "deploy Jules"
+- name: "deploy {{ app_name }}"
   hosts:
     - vps
   handlers:

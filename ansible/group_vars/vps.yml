@@ -1,9 +1,13 @@
+app_name: "{{ lookup('env', 'APP_NAME') }}"
+environment: "{{ lookup('env', 'ENV') }}"
+
+
 # Database
 postgres_user: "{{ lookup('env', 'POSTGRES_USER') }}"
 postgres_password: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
 postgres_db: "{{ lookup('env', 'POSTGRES_DB') }}"
 postgres_port: "{{ lookup('env', 'POSTGRES_PORT') | default('5432', true) }}"
-postgres_container_name: jules-db
+postgres_container_name: "{{ app_name }}-db"
 db_uri: "postgres://{{ postgres_user }}:{{ postgres_password }}@{{ postgres_container_name }}:{{ postgres_port }}/{{ postgres_db }}"
 
-app_network_name: "jules_app_net"
+app_network_name: "{{ app_name }}_app_net"

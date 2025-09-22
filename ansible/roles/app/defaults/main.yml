@@ -17,27 +17,26 @@ next_public_api_url: "{{ lookup('env', 'NEXT_PUBLIC_API_URL') }}"
 # Backend
 app_backend_env_template: "api.env.j2"
 app_backend_env_file: "/home/{{ ansible_user }}/api.env"
-app_backend_container_name: "jules-backend"
-app_backend_build_path: "/home/{{ ansible_user }}/api"
-postgres_container_name: jules-db
+app_backend_container_name: "{{ app_name }}-backend"
 app_backend_depends_on:
   - "{{ postgres_container_name }}"
 
 
 # Migration
-app_migrate_container_name: "jules-migrate"
+app_migrate_container_name: "{{ app_name }}-migrate"
 app_migrate_command: >
   sh -c "pnpm kysely migrate:latest && pnpm kysely seed:run"
 
 # Frontend
 app_frontend_env_template: "web.env.j2"
 app_frontend_env_file: "/home/{{ ansible_user }}/web.env.local"
-app_frontend_container_name: "jules-frontend"
-app_frontend_build_path: "/home/{{ ansible_user }}/web"
+app_frontend_container_name: "{{ app_name }}-frontend"
 app_frontend_port: "{{ lookup('env', 'APP_FRONT_PORT') | default('3000', true) }}"
 app_frontend_depends_on:
   - "{{ app_backend_container_name }}"
 
 # General
 app_env_file_mode: '0600'
+docker_registry: "{{ lookup('env', 'DOCKER_REGISTRY')}}"
+docker_registry_user : "{{ lookup('env', 'DOCKER_REGISTRY_USER') }}"
 

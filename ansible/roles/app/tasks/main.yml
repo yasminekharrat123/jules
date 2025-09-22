@@ -14,8 +14,7 @@
 - name: "[APP] Run backend container"
   community.docker.docker_container:
     name: "{{ app_backend_container_name }}"
-    build:
-      path: "{{ app_backend_build_path }}"
+    image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-backend:{{ environment }}"
     env_file: "{{ app_backend_env_file }}"
     ports:
       - "{{ api_port }}:{{ api_port }}"
@@ -27,8 +26,7 @@
 - name: "[APP] Run migration (one-shot)"
   community.docker.docker_container:
     name: "{{ app_migrate_container_name }}"
-    build:
-      path: "{{ app_backend_build_path }}"
+    image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-backend:{{ environment }}"
     env_file: "{{ app_backend_env_file }}"
     command: "{{ app_migrate_command }}"
     restart_policy: "no"
@@ -41,8 +39,7 @@
 - name: "[APP] Run frontend container"
   community.docker.docker_container:
     name: "{{ app_frontend_container_name }}"
-    build:
-      path: "{{ app_frontend_build_path }}"
+    image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-frontend:{{ environment }}"
     env_file: "{{ app_frontend_env_file }}"
     ports:
       - "{{ app_frontend_port }}:{{ app_frontend_port }}"
