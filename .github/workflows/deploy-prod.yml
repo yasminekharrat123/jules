@@ -5,6 +5,7 @@ on:
     workflows: ["Build and Push App Docker Images"]
     types:
       - completed
+  workflow_dispatch:  # manual triggering
 
 jobs:
   deploy:
