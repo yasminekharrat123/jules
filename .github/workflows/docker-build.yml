@@ -49,5 +49,5 @@ jobs:
           context: ${{ matrix.context }}
           push: true
           tags: |
-            ghcr.io/${{ env.DOCKER_REGISTRY_USER }}/${{ env.APP_NAME }}-${{ matrix.service }}:latest
-            ghcr.io/${{ env.DOCKER_REGISTRY_USER }}/${{ env.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
+            ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/${{ vars.APP_NAME }}-${{ matrix.service }}:latest
+            ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/${{ vars.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
