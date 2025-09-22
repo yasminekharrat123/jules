@@ -1,0 +1,67 @@
+- name: "common role"
+  hosts: vps
+  roles:
+    - base
+  tags:
+    - base-tasks
+    - deploy-app
+  
+- name: "deploy docker"
+  hosts: 
+    - vps
+  handlers:
+  - name: "Restart Docker"
+    import_tasks: "roles/docker/handlers/main.yml"
+  roles:
+    - role: docker
+  tags:
+    - deploy-docker
+    - deploy-app
+
+
+- name: "deploy postgres"
+  hosts: vps
+  roles:
+    - db
+  tags:
+    - database
+    - deploy-app
+
+  
+- name: "deploy webserver"
+  serial: 1
+  hosts:
+    - vps
+  roles:
+    - nginx_proxy 
+  tags:
+    - deploy-webserver
+    - deploy-app
+
+- name: "deploy Jules"
+  hosts:
+    - vps
+  handlers:
+    - name: postgres handlers 
+      import_tasks: "roles/db/handlers/main.yml"
+  roles:
+    - app
+  tags:
+     - deploy-app
+
+
+# - name: "deploy monitoring"
+#   hosts:
+#     - vps
+#   roles:
+#     - monitoring
+#   tags:
+#     - deploy-monitoring
+
+# - name: "deploy exporters"
+#   hosts: vps
+#   roles:
+#     - exporters
+#   tags:
+#     - deploy-monitoring
+#     - deploy-exporters
