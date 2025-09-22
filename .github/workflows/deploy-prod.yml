@@ -2,7 +2,7 @@ name: Deploy with Ansible
 
 on:
   workflow_run:
-    workflows: ["Build and Push Docker Images"]
+    workflows: ["Build and Push App Docker Images"]
     types:
       - completed
 
