@@ -1,0 +1,52 @@
+---
+- name: "[APP] Copy backend env file"
+  template:
+    src: "{{ app_backend_env_template }}"
+    dest: "{{ app_backend_env_file }}"
+    mode: "{{ app_env_file_mode }}"
+
+- name: "[APP] Copy frontend env file"
+  template:
+    src: "{{ app_frontend_env_template }}"
+    dest: "{{ app_frontend_env_file }}"
+    mode: "{{ app_env_file_mode }}"
+
+- name: "[APP] Run backend container"
+  community.docker.docker_container:
+    name: "{{ app_backend_container_name }}"
+    build:
+      path: "{{ app_backend_build_path }}"
+    env_file: "{{ app_backend_env_file }}"
+    ports:
+      - "{{ api_port }}:{{ api_port }}"
+    restart_policy: always
+    depends_on: "{{ app_backend_depends_on }}"
+    networks:
+      - name: "{{ app_network_name }}"
+
+- name: "[APP] Run migration (one-shot)"
+  community.docker.docker_container:
+    name: "{{ app_migrate_container_name }}"
+    build:
+      path: "{{ app_backend_build_path }}"
+    env_file: "{{ app_backend_env_file }}"
+    command: "{{ app_migrate_command }}"
+    restart_policy: "no"
+    state: started
+    auto_remove: yes
+    depends_on: "{{ app_backend_depends_on }}"
+    networks:
+      - name: "{{ app_network_name }}"
+
+- name: "[APP] Run frontend container"
+  community.docker.docker_container:
+    name: "{{ app_frontend_container_name }}"
+    build:
+      path: "{{ app_frontend_build_path }}"
+    env_file: "{{ app_frontend_env_file }}"
+    ports:
+      - "{{ app_frontend_port }}:{{ app_frontend_port }}"
+    restart_policy: always
+    depends_on: "{{ app_frontend_depends_on }}"
+    networks:
+      - name: "{{ app_network_name }}"

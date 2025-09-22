@@ -1,0 +1,43 @@
+## For env files
+
+# API
+api_port: "{{ lookup('env', 'API_PORT') | default('3001', true) }}"
+api_page_size: "{{ lookup('env', 'API_PAGINATION_PAGE_SIZE') }}"
+seed_users_count: "{{ lookup('env', 'SEED_USERS_COUNT') }}"
+api_cors_json: "{{ lookup('env', 'API_CORS_JSON') }}"
+
+# Frontend
+next_public_api_url: "{{ lookup('env', 'NEXT_PUBLIC_API_URL') }}"
+
+
+
+
+## For docker compose
+
+# Backend
+app_backend_env_template: "api.env.j2"
+app_backend_env_file: "/home/{{ ansible_user }}/api.env"
+app_backend_container_name: "jules-backend"
+app_backend_build_path: "/home/{{ ansible_user }}/api"
+postgres_container_name: jules-db
+app_backend_depends_on:
+  - "{{ postgres_container_name }}"
+
+
+# Migration
+app_migrate_container_name: "jules-migrate"
+app_migrate_command: >
+  sh -c "pnpm kysely migrate:latest && pnpm kysely seed:run"
+
+# Frontend
+app_frontend_env_template: "web.env.j2"
+app_frontend_env_file: "/home/{{ ansible_user }}/web.env.local"
+app_frontend_container_name: "jules-frontend"
+app_frontend_build_path: "/home/{{ ansible_user }}/web"
+app_frontend_port: "{{ lookup('env', 'APP_FRONT_PORT') | default('3000', true) }}"
+app_frontend_depends_on:
+  - "{{ app_backend_container_name }}"
+
+# General
+app_env_file_mode: '0600'
+
