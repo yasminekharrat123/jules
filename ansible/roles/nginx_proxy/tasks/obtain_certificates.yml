@@ -1,6 +1,6 @@
 ---
 - name: "[NGINX] Obtain SSL certificate for API domain"
-  become: yes
+  become: true
   command: >
     certbot --nginx
     -n --agree-tos
@@ -10,7 +10,7 @@
     creates: "/etc/letsencrypt/live/{{ nginx_proxy_api_domain }}/fullchain.pem"
 
 - name: "[NGINX] Obtain SSL certificate for APP domain"
-  become: yes
+  become: true
   command: >
     certbot --nginx
     -n --agree-tos
@@ -24,4 +24,4 @@
     name: certbot.timer
     enabled: true
     state: started
-  become: yes
+  become: true

@@ -3,5 +3,5 @@
   community.docker.docker_container:
     name: "{{ postgres_container_name }}"
     state: restarted
-  become: yes
+  become: true
 

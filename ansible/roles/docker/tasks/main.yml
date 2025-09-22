@@ -51,5 +51,5 @@
     name: "{{ app_network_name }}"
     driver: bridge
     state: present
-  become: yes
+  become: true
 

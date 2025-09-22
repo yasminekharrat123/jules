@@ -1,6 +1,6 @@
 ---
 - name: "[NGINX] Deploy API site config (HTTP only)"
-  become: yes
+  become: true
   template:
     src: site_api.conf.j2
     dest: /etc/nginx/sites-available/{{ nginx_proxy_api_domain }}.conf
@@ -8,7 +8,7 @@
   notify: Reload nginx
 
 - name: "[NGINX] Enable API site"
-  become: yes
+  become: true
   file:
     src: /etc/nginx/sites-available/{{ nginx_proxy_api_domain }}.conf
     dest: /etc/nginx/sites-enabled/{{ nginx_proxy_api_domain }}.conf
@@ -16,7 +16,7 @@
   notify: Reload nginx
 
 - name: "[NGINX] Deploy APP site config (HTTP only)"
-  become: yes
+  become: true
   template:
     src: site_app.conf.j2
     dest: /etc/nginx/sites-available/{{ nginx_proxy_app_domain }}.conf
@@ -24,7 +24,7 @@
   notify: Reload nginx
 
 - name: "[NGINX] Enable APP site"
-  become: yes
+  become: true
   file:
     src: /etc/nginx/sites-available/{{ nginx_proxy_app_domain }}.conf
     dest: /etc/nginx/sites-enabled/{{ nginx_proxy_app_domain }}.conf
