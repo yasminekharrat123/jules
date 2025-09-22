@@ -48,7 +48,7 @@ jobs:
           APP_FRONT_PORT: ${{ vars.APP_FRONT_PORT }}
         run: |
           mkdir -p ~/.ssh
-          echo ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
           docker run --rm \
