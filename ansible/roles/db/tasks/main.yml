@@ -1,10 +1,12 @@
 ---
 - name: "[DB] Create Docker volume for Postgres"
+  become: true
   community.docker.docker_volume:
     name: "{{ postgres_volume_name }}"
     state: present
 
 - name: "[DB] Run Postgres container"
+  become: true
   community.docker.docker_container:
     name: "{{ postgres_container_name }}"
     image: "{{ postgres_image }}"
@@ -26,4 +28,3 @@
       - name: "{{ app_network_name }}"
         aliases:
           - "{{ postgres_container_name }}"
-  become: true
