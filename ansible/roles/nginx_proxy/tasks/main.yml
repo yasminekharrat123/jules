@@ -1,0 +1,4 @@
+- import_tasks: install_nginx.yml
+- import_tasks: configure_nginx.yml
+- import_tasks: restart_nginx.yml
+- import_tasks: obtain_certificates.yml

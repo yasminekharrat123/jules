@@ -1,0 +1,7 @@
+---
+- name: "[NGINX] Ensure nginx is running & enabled"
+  become: yes
+  service:
+    name: nginx
+    state: started
+    enabled: yes

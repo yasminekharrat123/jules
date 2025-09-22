@@ -1,0 +1,27 @@
+---
+- name: "[NGINX] Obtain SSL certificate for API domain"
+  become: yes
+  command: >
+    certbot --nginx
+    -n --agree-tos
+    -m {{ nginx_proxy_letsencrypt_email }}
+    -d {{ nginx_proxy_api_domain }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ nginx_proxy_api_domain }}/fullchain.pem"
+
+- name: "[NGINX] Obtain SSL certificate for APP domain"
+  become: yes
+  command: >
+    certbot --nginx
+    -n --agree-tos
+    -m {{ nginx_proxy_letsencrypt_email }}
+    -d {{ nginx_proxy_app_domain }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ nginx_proxy_app_domain }}/fullchain.pem"
+
+- name: "[NGINX] Ensure certbot.timer is enabled and active"
+  ansible.builtin.systemd:
+    name: certbot.timer
+    enabled: true
+    state: started
+  become: yes
