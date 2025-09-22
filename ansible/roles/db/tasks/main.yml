@@ -26,3 +26,4 @@
       - name: "{{ app_network_name }}"
         aliases:
           - "{{ postgres_container_name }}"
+  become: true

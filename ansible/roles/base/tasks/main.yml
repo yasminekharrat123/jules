@@ -2,8 +2,3 @@
   ansible.builtin.apt:
     update_cache: yes
     cache_valid_time: 3600
-- name: "[DEBUG] Show app_name and app_network_name"
-  debug:
-    msg:
-      - "App name: {{ app_name }}"
-      - "App network: {{ app_network_name }}"
