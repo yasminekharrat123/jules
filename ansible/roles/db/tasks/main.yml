@@ -22,6 +22,7 @@
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: "{{ postgres_healthcheck_interval }}"
+      timeout: 5s
       retries: "{{ postgres_healthcheck_retries }}"
       start_period: "{{ postgres_healthcheck_start_period }}"
     networks:

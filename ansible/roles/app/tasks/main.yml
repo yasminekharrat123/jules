@@ -15,7 +15,7 @@
   community.docker.docker_container_info:
     name: "{{ postgres_container_name }}"
   register: postgres_info
-  until: postgres_info.containers[0].State.Health.Status == "healthy"
+  until: postgres_info.container.State.Health.Status == "healthy"
   retries: 20
   delay: 5
 
@@ -33,6 +33,7 @@
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:{{ api_port }}/health || exit 1"]
       interval: 10s
+      timeout: 5s
       retries: 5
       start_period: 10s
 
@@ -40,11 +41,12 @@
   community.docker.docker_container_info:
     name: "{{ app_backend_container_name }}"
   register: backend_info
-  until: backend_info.containers[0].State.Health.Status == "healthy"
+  until: backend_info.container.State.Health.Status == "healthy"
   retries: 20
   delay: 5
 - name: "[APP] Run migration (one-shot)"
   become: true
+
   community.docker.docker_container:
     name: "{{ app_migrate_container_name }}"
     image: "{{ docker_registry }}/{{ docker_registry_user }}/{{ app_name }}-backend:{{ environment }}"
