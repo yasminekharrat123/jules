@@ -19,19 +19,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: Set up SSH
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Add VPS to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+      # - name: Add VPS to known_hosts
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with Ansible
         env:
-          SSH_AUTH_SOCK: /ssh-agent
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
           DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
           DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
@@ -48,11 +48,13 @@ jobs:
           SEED_USERS_COUNT: ${{ vars.SEED_USERS_COUNT }}
           APP_FRONT_PORT: ${{ vars.APP_FRONT_PORT }}
         run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
           docker run --rm \
             -v "${{ github.workspace }}/ansible:/ansible" \
-            -v $SSH_AUTH_SOCK:/ssh-agent \
-            -e SSH_AUTH_SOCK=/ssh-agent \
             -w /ansible \
-            $(for var in $(compgen -v); do echo -n "-e $var "; done) \
+            -e SSH_PRIVATE_KEY="$SSH_PRIVATE_KEY" \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
             ansible-playbook -i inventory/hosts.yml deploy-app.yml
