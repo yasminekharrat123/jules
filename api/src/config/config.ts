@@ -26,7 +26,8 @@ const configSchema = z.object({
 const apiConfig = ((): z.infer<typeof configSchema> => {
   try {
     const rawCors = process.env.API__CORS__ALLOWED_HOST_JSON ?? "[]"
-    const sanitizedCors = rawCors.trim().replace(/'/g, '"')
+    const sanitizedCors = rawCors.trim().replace(/'/gu, '"')
+    console.log(sanitizedCors)
 
     return configSchema.parse({
       api: {
