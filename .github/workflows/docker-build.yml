@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    environment: production
 
     permissions:
       contents: read
@@ -48,5 +49,5 @@ jobs:
           context: ${{ matrix.context }}
           push: true
           tags: |
-            ghcr.io/${{ env.REGISTRY_USERNAME }}/${{ env.APP_NAME }}-${{ matrix.service }}:latest
-            ghcr.io/${{ env.REGISTRY_USERNAME }}/${{ env.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
+            ghcr.io/${{ env.DOCKER_REGISTRY_USER }}/${{ env.APP_NAME }}-${{ matrix.service }}:latest
+            ghcr.io/${{ env.DOCKER_REGISTRY_USER }}/${{ env.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
