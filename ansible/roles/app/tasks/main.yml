@@ -15,7 +15,7 @@
   community.docker.docker_container_info:
     name: "{{ postgres_container_name }}"
   register: postgres_info
-  until: postgres_info.container.State.Health.Status == "healthy"
+  until: postgres_info.containers[0].State.Health.Status == "healthy"
   retries: 20
   delay: 5
 
@@ -35,12 +35,12 @@
       interval: 10s
       retries: 5
       start_period: 10s
-      
+
 - name: "[APP] Wait for backend to be healthy"
   community.docker.docker_container_info:
     name: "{{ app_backend_container_name }}"
   register: backend_info
-  until: backend_info.container.State.Health.Status == "healthy"
+  until: backend_info.containers[0].State.Health.Status == "healthy"
   retries: 20
   delay: 5
 - name: "[APP] Run migration (one-shot)"
