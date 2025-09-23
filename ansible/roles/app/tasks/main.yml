@@ -22,12 +22,6 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:{{ api_port }} || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
 
 - name: "[APP] Run migration (one-shot)"
   become: true
@@ -53,9 +47,3 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:{{ frontend_port }} || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
