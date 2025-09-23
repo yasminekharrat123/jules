@@ -3,3 +3,11 @@
     update_cache: yes
     cache_valid_time: 3600
   become: true
+
+- name: "[BASE] Install required packages"
+  ansible.builtin.apt:
+    name:
+      - unzip
+    state: present
+    update_cache: yes
+  become: true

@@ -5,6 +5,7 @@
   tags:
     - base-tasks
     - deploy-app
+    - deploy-monitoring
   
 - name: "deploy docker"
   hosts: 
