@@ -6,6 +6,8 @@ const api = axios.create({
   baseURL: webConfig.api.url,
 })
 
+console.log("Axios baseURL:", webConfig.api.url);
+
 export const getStudents = (page: number) =>
   api.get<Student[]>(`/students?page=${page}`)
 
