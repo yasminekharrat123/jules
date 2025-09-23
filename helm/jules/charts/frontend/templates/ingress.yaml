@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: {{ include "frontend.fullname" . }}-ingress
   annotations:
-{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{ toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: {{ .Values.ingress.className | default "nginx" }}
   rules:
@@ -15,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "frontend.fullname" . }}
+                name: {{ include "frontend.name" . }}
                 port:
                   number: {{ .Values.service.port }}
 {{- end }}
