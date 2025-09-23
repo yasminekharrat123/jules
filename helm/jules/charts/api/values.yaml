@@ -13,9 +13,9 @@ imagePullSecrets:
   name: ghcr-secret
 
 env:
-  API__API_PORT: 3001
+  API__API_PORT: ""
   API__PAGINATION__PAGE_SIZE: 20
-  API__CORS__ALLOWED_HOST_JSON: '["http://test-app.local"]'
+  API__CORS__ALLOWED_HOST_JSON: "[]"
   SEED__USERS__COUNT: 50
 
 secrets:
@@ -28,18 +28,6 @@ resources:
   requests:
     cpu: "100m"
     memory: "128Mi"
-
-livenessProbe:
-  path: /
-  port: 3001
-  initialDelaySeconds: 10
-  periodSeconds: 10
-
-readinessProbe:
-  path: /
-  port: 3001
-  initialDelaySeconds: 5
-  periodSeconds: 5
 
 hpa:
   enabled: true

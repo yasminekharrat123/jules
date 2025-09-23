@@ -1,18 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-frontend
+  name: {{ include "frontend.fullname" . }}
   labels:
-    app: {{ .Release.Name }}-frontend
+    app: {{ include "frontend.name" . }}
+    release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-frontend
+      app: {{ include "frontend.name" . }}
   template:
     metadata:
+      annotations:
+        redeployTimestamp: "{{ now | unixEpoch }}"
       labels:
-        app: {{ .Release.Name }}-frontend
+        app: {{ include "frontend.name" . }}
     spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets.name }}
@@ -24,22 +27,6 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.livenessProbe.path | quote }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.readinessProbe.path | quote }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-frontend-config
-            {{- if .Values.secrets }}
-            - secretRef:
-                name: {{ .Release.Name }}-frontend-secret
-            {{- end }}
+                name: {{ include "frontend.fullname" . }}
