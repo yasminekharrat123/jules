@@ -1,4 +1,4 @@
-name: Deploy with Ansible
+name: Deploy App with Ansible
 
 on:
   workflow_run:

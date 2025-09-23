@@ -26,4 +26,4 @@ jobs:
             -v ~/.ssh:/root/.ssh:ro \
             -w /ansible \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:latest \
-            ansible-playbook -i inventory/hosts.yml deploy-monitoring.yml --tags deploy-monitoring
+            ansible-playbook -i inventory/hosts.yml deploy-app.yml --tags deploy-monitoring
