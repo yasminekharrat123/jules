@@ -31,7 +31,7 @@ jobs:
             -v ~/.ssh:/root/.ssh:ro \
             -w /ansible \
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
-            ansible-playbook -i inventory/hosts.yml deploy-app.yml --tags deploy-webserver \
+            ansible-playbook -i inventory/hosts.yml deploy-app.yml --tags deploy-app \
             -e "DOCKER_REGISTRY=${{ secrets.DOCKER_REGISTRY }}" \
             -e "DOCKER_REGISTRY_USER=${{ secrets.DOCKER_REGISTRY_USER }}" \
             -e "DOCKER_REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" \

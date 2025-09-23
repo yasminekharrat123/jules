@@ -19,7 +19,7 @@
     env_file: "{{ app_backend_env_file }}"
     ports:
       - "{{ api_port }}:{{ api_port }}"
-    # restart_policy: always
+    restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
     healthcheck:
@@ -50,7 +50,7 @@
     env_file: "{{ app_frontend_env_file }}"
     ports:
       - "{{ frontend_port }}:{{ frontend_port }}"
-    # restart_policy: always
+    restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
     healthcheck:
