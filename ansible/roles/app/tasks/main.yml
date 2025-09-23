@@ -22,6 +22,7 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
+    pull: yes
 
 - name: "[APP] Run migration (one-shot)"
   become: true
@@ -35,6 +36,7 @@
     auto_remove: yes
     networks:
       - name: "{{ app_network_name }}"
+    pull: yes
 
 - name: "[APP] Run frontend container"
   become: true
@@ -47,3 +49,4 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
+    pull: yes
