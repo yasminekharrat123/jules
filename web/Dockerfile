@@ -17,3 +17,4 @@ RUN pnpm install --frozen-lockfile --prod
 COPY --from=builder /app/.next ./.next
 EXPOSE 3000
 CMD ["pnpm", "run", "start"]
+
