@@ -1,12 +1,5 @@
 
-- name: "[NGINX] Check if certificate already exists with both domains"
-  become: true
-  command: >
-    certbot certificates --domain {{ nginx_proxy_api_domain }} --domain {{ nginx_proxy_app_domain }}
-  register: cert_check
-  changed_when: false
-  failed_when: false
-
+---
 - name: "[NGINX] Obtain/renew SSL certificate for API + APP domains"
   become: true
   command: >
@@ -15,8 +8,8 @@
     -m {{ nginx_proxy_letsencrypt_email }}
     -d {{ nginx_proxy_api_domain }}
     -d {{ nginx_proxy_app_domain }}
-    {% if nginx_proxy_ssl_redirect %} --redirect {% endif %}
-  when: cert_check.rc != 0
+    --redirect
+    --non-interactive
   notify: Reload nginx
 
 - name: "[NGINX] Ensure certbot.timer is enabled and active"

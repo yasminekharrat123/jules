@@ -10,4 +10,3 @@ nginx_proxy_app_upstream_port: "{{ frontend_port }}"
 
 
 nginx_proxy_letsencrypt_email: "yasminekharrat567@gmail.com"
-nginx_proxy_ssl_redirect: true
