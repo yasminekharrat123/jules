@@ -26,8 +26,7 @@ jobs:
           - service: frontend
             context: ./web
             path_filter: 'web/**'
-            build_args: |
-              NEXT_PUBLIC_API__URL=${{ vars.NEXT_PUBLIC_API__URL }}
+
 
     steps:
       - name: Checkout code
@@ -66,4 +65,4 @@ jobs:
           tags: |
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/${{ vars.APP_NAME }}-${{ matrix.service }}:${{ vars.ENV }}
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/${{ vars.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
-          build-args: ${{ matrix.build_args || '' }}
+          build-args: ${{ matrix.service == 'frontend' && 'NEXT_PUBLIC_API__URL=${{ vars.NEXT_PUBLIC_API__URL }}' || '' }}
