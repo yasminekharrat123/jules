@@ -1,27 +1,27 @@
----
-- name: "[NGINX] Obtain SSL certificate for API domain"
+
+- name: "[NGINX] Check if certificate already exists with both domains"
+  become: true
+  command: >
+    certbot certificates --domain {{ nginx_proxy_api_domain }} --domain {{ nginx_proxy_app_domain }}
+  register: cert_check
+  changed_when: false
+  failed_when: false
+
+- name: "[NGINX] Obtain/renew SSL certificate for API + APP domains"
   become: true
   command: >
     certbot --nginx
     -n --agree-tos
     -m {{ nginx_proxy_letsencrypt_email }}
     -d {{ nginx_proxy_api_domain }}
-  args:
-    creates: "/etc/letsencrypt/live/{{ nginx_proxy_api_domain }}/fullchain.pem"
-
-- name: "[NGINX] Obtain SSL certificate for APP domain"
-  become: true
-  command: >
-    certbot --nginx
-    -n --agree-tos
-    -m {{ nginx_proxy_letsencrypt_email }}
     -d {{ nginx_proxy_app_domain }}
-  args:
-    creates: "/etc/letsencrypt/live/{{ nginx_proxy_app_domain }}/fullchain.pem"
+    {% if nginx_proxy_ssl_redirect %} --redirect {% endif %}
+  when: cert_check.rc != 0
+  notify: Reload nginx
 
 - name: "[NGINX] Ensure certbot.timer is enabled and active"
+  become: true
   ansible.builtin.systemd:
     name: certbot.timer
     enabled: true
     state: started
-  become: true

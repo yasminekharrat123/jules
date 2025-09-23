@@ -8,9 +8,6 @@ nginx_proxy_api_upstream_port: "{{ api_port }}"
 nginx_proxy_app_upstream_host: "127.0.0.1"
 nginx_proxy_app_upstream_port: "{{ frontend_port }}"
 
-nginx_proxy_sites_available_path: "/etc/nginx/sites-available"
-nginx_proxy_sites_enabled_path: "/etc/nginx/sites-enabled"
 
 nginx_proxy_letsencrypt_email: "yasminekharrat567@gmail.com"
-nginx_proxy_letsencrypt_auto_renew: true
 nginx_proxy_ssl_redirect: true
