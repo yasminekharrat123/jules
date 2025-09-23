@@ -1,0 +1,29 @@
+name: Deploy Monitoring with Ansible
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-monitoring:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy monitoring with Ansible
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}/ansible:/ansible" \
+            -v ~/.ssh:/root/.ssh:ro \
+            -w /ansible \
+            ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:latest \
+            ansible-playbook -i inventory/hosts.yml deploy-monitoring.yml --tags deploy-monitoring

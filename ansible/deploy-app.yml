@@ -50,18 +50,11 @@
      - deploy-app
 
 
-# - name: "deploy monitoring"
-#   hosts:
-#     - vps
-#   roles:
-#     - monitoring
-#   tags:
-#     - deploy-monitoring
+- name: "deploy monitoring"
+  hosts:
+    - vps
+  roles:
+    - monitoring
+  tags:
+    - deploy-monitoring
 
-# - name: "deploy exporters"
-#   hosts: vps
-#   roles:
-#     - exporters
-#   tags:
-#     - deploy-monitoring
-#     - deploy-exporters

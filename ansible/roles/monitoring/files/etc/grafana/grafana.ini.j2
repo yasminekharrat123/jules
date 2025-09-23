@@ -1,0 +1,5 @@
+[server]
+protocol = http 
+domain = {{ monitoring_domain }}
+http_port = {{ grafana_net.port }}
+root_url = %(protocol)s://%(domain)s/

@@ -1,0 +1,37 @@
+---
+- name: "[MONITORING] - create datasources provisioning folder"
+  file:
+    path: "{{ grafana_config_path }}/provisioning/datasources/"
+    state: directory
+    owner: "{{ platform_user }}"
+    group: "{{ platform_user }}"
+  become: true
+
+- name: "[MONITORING] - configure loki datasources provisioning"
+  template:
+    src: "{{ role_path }}/files/etc/grafana/provisioning/datasources/loki.yml.j2"
+    dest: "{{ grafana_config_path }}/provisioning/datasources/loki.yml"
+    mode: 0644
+  become: true
+
+- name: "[MONITORING] - Deploy grafana config"
+  template:
+    src: "{{ role_path }}/files/etc/grafana/grafana.ini.j2"
+    dest: "/etc/grafana/grafana.ini"
+    owner: "{{ platform_user }}"
+    group: "{{ platform_user }}"
+  become: true
+
+- name: "[GRAFANA] - start grafana"
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana
+    user: root
+    state: started
+    restart_policy: always
+    volumes:
+      - "{{ grafana_config_path }}:{{ grafana_config_path }}"
+      - "/var/lib/grafana:/var/lib/grafana"
+    published_ports:
+      - "127.0.0.1:{{ grafana_net.port }}:{{ grafana_net.port }}"
+  become: true

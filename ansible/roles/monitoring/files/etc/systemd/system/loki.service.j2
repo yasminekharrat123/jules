@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=Loki Logging
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=loki
+Group=loki
+ExecStart={{ loki_path }}/loki \
+  --config.file={{ loki_config_dir }}/loki.yml
+Restart=always
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

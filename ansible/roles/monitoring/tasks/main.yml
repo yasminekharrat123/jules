@@ -1,0 +1,6 @@
+---
+- name: "[MONITORING] Install Loki"
+  include_tasks: install_loki.yml
+
+- name: "[MONITORING] Install Grafana"
+  include_tasks: install_grafana.yml

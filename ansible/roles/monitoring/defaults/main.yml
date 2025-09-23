@@ -1,0 +1,18 @@
+monitoring_domain: grafana.yas.io
+grafana_net:
+  port: 4000
+
+platform_user: ubuntu                     # user that owns config files
+platform_env: production                     
+
+grafana_loki_datasource_name: Loki
+grafana_config_path: /etc/grafana
+
+loki_net:
+  fqdn: loki.yas.io
+  port: 4100
+
+loki_version: "2.9.0"
+loki_path: /usr/local/bin
+loki_config_dir: /etc/loki
+loki_db_dir: /var/lib/loki
