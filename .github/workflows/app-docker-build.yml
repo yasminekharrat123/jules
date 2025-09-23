@@ -65,4 +65,4 @@ jobs:
           tags: |
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/${{ vars.APP_NAME }}-${{ matrix.service }}:${{ vars.ENV }}
             ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/${{ vars.APP_NAME }}-${{ matrix.service }}:${{ env.COMMIT_SHORT_SHA }}
-          build-args: ${{ matrix.service == 'frontend' && 'NEXT_PUBLIC_API__URL=${{ vars.NEXT_PUBLIC_API__URL }}' || '' }}
+          build-args: ${{ matrix.service == 'frontend' && format('NEXT_PUBLIC_API__URL={0}', vars.NEXT_PUBLIC_API__URL) || '' }}
