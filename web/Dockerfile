@@ -1,7 +1,6 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 RUN npm install -g pnpm
-
 ARG NEXT_PUBLIC_API__URL
 ENV NEXT_PUBLIC_API__URL=$NEXT_PUBLIC_API__URL
 

@@ -6,7 +6,6 @@ on:
     paths:
       - "web/**"
       - "api/**"
-      - .github/workflows/app-docker-build.yml
 
 jobs:
   build-and-push:
