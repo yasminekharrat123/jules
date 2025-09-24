@@ -34,6 +34,4 @@
       - "/var/lib/grafana:/var/lib/grafana"
     published_ports:
       - "127.0.0.1:{{ grafana_net.port }}:{{ grafana_net.port }}"
-    etc_hosts:
-      - "loki.yas.io:51.158.120.62"
   become: true

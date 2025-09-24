@@ -24,7 +24,7 @@
       - name: "{{ app_network_name }}"
     log_driver: loki
     log_options:
-      loki-url: "http://{{ loki_net.host }}:{{ loki_net.port }}/loki/api/v1/push"
+      loki-url: "http://host.docker.internal:{{ loki_net.port }}/loki/api/v1/push"
       loki-external-labels: "app=backend,env={{ env }}"
     pull: yes
 
@@ -42,7 +42,7 @@
       - name: "{{ app_network_name }}"
     log_driver: loki
     log_options:
-      loki-url: "http://{{ loki_net.host }}:{{ loki_net.port }}/loki/api/v1/push"
+      loki-url: "http://host.docker.internal:{{ loki_net.port }}/loki/api/v1/push"
       loki-external-labels: "app=backend-migrate,env={{ env }}"
     pull: yes
 
@@ -59,6 +59,6 @@
       - name: "{{ app_network_name }}"
     log_driver: loki
     log_options:
-      loki-url: "http://{{ loki_net.host }}:{{ loki_net.port }}/loki/api/v1/push"
+      loki-url: "http://host.docker.internal:{{ loki_net.port }}/loki/api/v1/push"
       loki-external-labels: "app=frontend,env={{ env }}"
     pull: yes
