@@ -35,6 +35,8 @@
     networks:
       - name: monitoring_net
     user: root
+    published_ports:
+      - "127.0.0.1:{{ loki_net.port }}:{{ loki_net.port }}"
     volumes:
       - "{{ loki_config_dir }}:/etc/loki"
       - "{{ loki_db_dir }}:/loki"
