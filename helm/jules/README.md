@@ -270,6 +270,14 @@ argocd app set jules --sync-policy automated --auto-prune --self-heal
 argocd app get jules
 ```
 
+```
+![alt text](argocd_dashboard.png)
+```
+
+```
+![alt text](deployed_app.png)
+```
+
 ---
 
 ## Notes

@@ -8,7 +8,7 @@ on:
       - '.github/workflows/ansible-docker-build.yml'
     branches:
       - master
-  workflow_dispatch: # manual
+  workflow_dispatch:
 
 jobs:
   build:
@@ -35,6 +35,6 @@ jobs:
             context: ./ansible
             file: ./ansible/Dockerfile
             push: true
-            tags: ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }}
+            tags: ${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }}
 
 

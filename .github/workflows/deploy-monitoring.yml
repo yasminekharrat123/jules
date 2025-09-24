@@ -25,5 +25,5 @@ jobs:
             -v "${{ github.workspace }}/ansible:/ansible" \
             -v ~/.ssh:/root/.ssh:ro \
             -w /ansible \
-            ghcr.io/${{ secrets.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
+            ${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/ansible:${{ vars.ENV }} \
             ansible-playbook -i inventory/hosts.yml deploy-app.yml --tags deploy-monitoring
