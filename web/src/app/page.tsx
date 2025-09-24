@@ -12,6 +12,7 @@ const Home = async ({ searchParams }: HomeProps) => {
   const page = searchParams.page ? Number(searchParams.page) : 1
   const { data: students } = await getStudents(page)
 
+  console.log('hello from home page to test loki logs')
   return (
     <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-8 px-4">
       <StudentTable students={students} />
