@@ -32,7 +32,8 @@
     volumes:
       - "{{ grafana_config_path }}:{{ grafana_config_path }}"
       - "/var/lib/grafana:/var/lib/grafana"
-      - "/etc/hosts:/etc/hosts:ro" # to resolve loki hostname
     published_ports:
       - "127.0.0.1:{{ grafana_net.port }}:{{ grafana_net.port }}"
+    extra_hosts:
+      - "loki.yas.io:51.158.120.62"
   become: true
