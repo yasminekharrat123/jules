@@ -53,8 +53,18 @@
     src: "/tmp/loki-linux-amd64.zip"
     dest: "/tmp"
     remote_src: true
-  when: loki_download.changed
+  # when: loki_download.changed
   check_mode: false
+
+- name: "[MONITORING] copy loki config"
+  template:
+    src: "{{ role_path }}/files/etc/loki/loki.yml.j2"
+    dest: "{{ loki_config_dir }}/loki.yml"
+    owner: loki
+    group: loki
+  become: true
+  notify:
+    - restart loki
 
 - name: "[MONITORING] copy loki binary"
   copy:
@@ -64,16 +74,6 @@
     owner: root
     group: root
     remote_src: true
-  become: true
-  notify:
-    - restart loki
-
-- name: "[MONITORING] copy loki config"
-  template:
-    src: "{{ role_path }}/files/etc/loki/loki.yml.j2"
-    dest: "{{ loki_config_dir }}/loki.yml"
-    owner: loki
-    group: loki
   become: true
   notify:
     - restart loki
