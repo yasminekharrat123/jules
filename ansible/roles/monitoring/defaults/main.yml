@@ -8,9 +8,6 @@ platform_env: production
 grafana_loki_datasource_name: Loki
 grafana_config_path: /etc/grafana
 
-loki_net:
-  fqdn: loki.yas.io
-  port: 4100
 
 loki_version: "2.9.0"
 loki_path: /usr/local/bin

@@ -14,3 +14,7 @@ app_network_name: "{{ app_name }}_app_net"
 api_port: "{{ API_PORT | default('3001', true) }}"
 frontend_port: "{{ APP_FRONT_PORT | default('3000', true) }}"
 
+# Monitoring
+loki_net:
+  host: localhost
+  port: 4100

@@ -4,6 +4,6 @@ datasources:
   - name: {{ grafana_loki_datasource_name }}
     type: loki
     access: proxy
-    url: http://{{ loki_net.fqdn }}:{{ loki_net.port }}
+    url: http://{{ loki_net.host }}:{{ loki_net.port }}
     jsonData:
       maxLines: 1000
