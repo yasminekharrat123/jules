@@ -16,5 +16,6 @@ frontend_port: "{{ APP_FRONT_PORT | default('3000', true) }}"
 
 # Monitoring
 loki_net:
-  host: localhost
+  host: loki.yas.io
   port: 4100
+  ip: 127.0.0.1

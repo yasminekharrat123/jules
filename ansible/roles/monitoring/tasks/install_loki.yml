@@ -88,3 +88,12 @@
   become: true
   notify:
     - restart loki
+
+- name: "[MONITORING] Ensure Loki FQDN is in /etc/hosts"
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ loki_net.ip }} {{ loki_net.host }}"
+    state: present
+    regexp: ".*{{ loki_net.host }}$"
+
