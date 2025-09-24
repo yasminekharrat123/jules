@@ -16,5 +16,5 @@ frontend_port: "{{ APP_FRONT_PORT | default('3000', true) }}"
 
 # Monitoring
 loki_net:
-  host: localhost
+  host: loki
   port: 4100

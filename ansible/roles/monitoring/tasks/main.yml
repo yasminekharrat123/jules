@@ -1,4 +1,10 @@
 ---
+- name: create monitoring network
+  community.docker.docker_network:
+    name: monitoring_net
+    state: present
+  become: true
+
 - name: "[MONITORING] Install Loki"
   include_tasks: install_loki.yml
 

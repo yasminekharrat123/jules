@@ -22,9 +22,10 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
+      - name: monitoring_net
     log_driver: loki
     log_options:
-      loki-url: "http://host.docker.internal:{{ loki_net.port }}/loki/api/v1/push"
+      loki-url: "http://{{ loki_net.host }}:{{ loki_net.port }}/loki/api/v1/push"
       loki-external-labels: "app=backend,env={{ env }}"
     pull: yes
 
@@ -40,9 +41,10 @@
     auto_remove: yes
     networks:
       - name: "{{ app_network_name }}"
+      - name: monitoring_net
     log_driver: loki
     log_options:
-      loki-url: "http://host.docker.internal:{{ loki_net.port }}/loki/api/v1/push"
+      loki-url: "http://{{ loki_net.host }}:{{ loki_net.port }}/loki/api/v1/push"
       loki-external-labels: "app=backend-migrate,env={{ env }}"
     pull: yes
 
@@ -57,8 +59,9 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ app_network_name }}"
+      - name: monitoring_net
     log_driver: loki
     log_options:
-      loki-url: "http://host.docker.internal:{{ loki_net.port }}/loki/api/v1/push"
+      loki-url: "http://{{ loki_net.host }}:{{ loki_net.port }}/loki/api/v1/push"
       loki-external-labels: "app=frontend,env={{ env }}"
     pull: yes

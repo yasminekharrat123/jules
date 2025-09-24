@@ -29,6 +29,8 @@
     user: root
     state: started
     restart_policy: always
+    networks:
+      - name: monitoring_net
     volumes:
       - "{{ grafana_config_path }}:{{ grafana_config_path }}"
       - "/var/lib/grafana:/var/lib/grafana"
