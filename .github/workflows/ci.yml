@@ -26,8 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
-
+          
       - name: Install pnpm
         run: npm install -g pnpm
 
@@ -40,6 +39,7 @@ jobs:
   docker-scan:
     name: Scan GHCR Docker images with Trivy
     runs-on: ubuntu-latest
+    environment: production
     strategy:
       matrix:
         include:
