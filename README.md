@@ -135,7 +135,4 @@ Monitoring is fully automated and can be deployed seperately using CICD workflow
 
 
 # Deployed App
-```
 ![alt text](deployed_app_vps.png)
-
-```

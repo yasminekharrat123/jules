@@ -98,9 +98,7 @@ ansible-playbook -i inventory/hosts.yml deploy-app.yml --tags deploy-monitoring
 ## Screenshot
 
 
-```
 ![alt text](grafana.png)
-```
 
 ---
 
